@@ -1,0 +1,79 @@
+{% extends 'AppBlog/base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<title>BestReads - About</title>
+
+{% endblock %}
+
+{% block contenidoQueCambia %}  
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+      <section class="page-heading">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-content">
+                <h4>about us</h4>
+                <h2>Bestreads.</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Banner Ends Here -->
+
+    <section class="about-us">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <p>Bienvenido/a a BESTREADS, un foro para aficionados a la lectura donde podrás compartir tus opiniones sobre libros, calificándolos y creando entradas al blog.
+              Contacta con personas con gustos similares en el chat global!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="heading-page header-text">
+        <section class="page-heading">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-content">
+                  <h4>about me</h4>
+                  <h2>Andrés Machenaud</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="about-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <img src="{% static 'AppBlog\assets\images\Foto CV 2022.jpeg' %}" style="max-width: 300px;" alt="">
+              <p hover="yellow"></p>
+              <h4>Nombre</h4>
+              <p>Andrés Machenaud</p>
+              <h4>Edad</h4>
+              <p>25 años</p>
+              <h4>Profesión</h4>
+              <p>Ingeniero Químico</p>
+              <h4>País</h4>
+              <p>
+                <img src="{% static 'AppBlog\assets\images\Flag_of_Uruguay.jpg' %}" style="max-width: 100px;" alt="">&nbsp
+                <br>Uruguay</br>
+              </p>
+            </div>
+          </div>
+        </section>
+
+{% endblock %}

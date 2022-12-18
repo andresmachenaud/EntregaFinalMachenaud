@@ -1,0 +1,187 @@
+{% extends 'AppBlog/base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<title>Stand Blog - {{entrada.titulo}}</title>
+
+{% endblock %}
+
+
+{% block contenidoQueCambia %}  
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+      <section class="page-heading">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-content">
+                <h4>{{entrada.autor}}</h4>
+                <h2>{{entrada.titulo}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+  {% if request.user == entrada.autor.user %}
+    <div class="text-content">
+      <a href="{% url 'page-edit' entrada.id %}"><p>Editar</p></a>
+      <a href="{% url 'page-borrar' entrada.id %}"><p style="font-size: 20px;color:red">Borrar</p></a>
+    </div>
+  {% endif %}
+   
+
+    <!-- Banner Ends Here -->
+
+    <section class="blog-posts grid-system">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="all-blog-posts">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="blog-post">
+                    <div class="blog-thumb">
+                      <img src="{{imagen_url}}" alt="">
+                    </div>
+                    <div class="down-content">
+                      <a href="{% url 'page-search-cat' entrada.libro.categoria %}"><h1>{{entrada.libro.categoria}}</h1></a>
+                      <a href="{% url 'page-search-libro' entrada.libro.id %}"><h3>Libro: {{entrada.libro}}</h3></a>
+                      <a><h4>{{entrada.titulo}}</h4></a>
+                      <a><h4 style="font-size:18px">{{entrada.subtitulo}}</h4></a>
+                      <a><h4 style="font-size:18px; color:rgb(255, 166, 0)">Calificación: {{entrada.calificacion}}</h4></a>
+                      <ul class="post-info">
+                        <li><a href="{% url 'view-profile' entrada.autor.id %}">{{entrada.autor}}</a></li>
+                        {% if entrada.editado %}
+                        <li><a>Última edición: {{entrada.editado}}</a></li>
+                        {% endif %}
+                        <li><a>Creado el: {{entrada.fecha}}</a></li>
+                        <li><a>{{num_comentarios}} comentario(s)</a></li>
+                      </ul>
+                      <div class="first-par">
+                        <p></p>
+                      </div>
+                      <div class="cuerpo">
+                        {{entrada.cuerpo|safe}}
+                      </div>
+                      <div class="last-par">
+                        <p></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item comments">
+                    <div class="sidebar-heading">
+                      <h2>{{num_comentarios}} comentarios</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {%for comentario,avatar in listado_comentarios_avatars %}
+                        <li>
+                        <div class="author-thumb">
+                            <img src="{{avatar}}" alt="">
+                        </div>
+                        <div class="right-content">
+                            <h4>{{comentario.autor}}<span>{{comentario.fecha}}</span></h4>
+                            <p style="text-transform:none">{{comentario.cuerpo}}</p>
+                        </div>
+                        </li>
+                        {%endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item submit-comment">
+                    <div class="sidebar-heading">
+                      <h2>Tu comentario</h2>
+                    </div>
+                    <div class="content">
+                      {% if errores %}
+                      <p>Errores encontrados:</p>
+                      <p style="color:red">{{errores}}</p>
+                      {% endif %}
+                      <form name="formulario" id="comment" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <fieldset>
+                              <textarea name="cuerpo" rows="6" id="message" placeholder="Escribe tu comentario" required="" style="text-transform:none"></textarea>
+                            </fieldset>
+                          </div>
+                          <div class="col-lg-12">
+                            <fieldset>
+                              <button type="submit" id="form-submit" name="enviar-comentario" class="main-button">Enviar</button>
+                            </fieldset>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="sidebar">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="sidebar-item search">
+                    <form id="search_form" method="GET" action="{% url 'page-search' %}">
+                      <input type="text" name="titulo_entrada" class="searchText" placeholder="Escribe para buscar una entrada..." autocomplete="on">
+                    </form>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item recent-posts">
+                    <div class="sidebar-heading">
+                      <h2>Posts recientes</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {%if listado_entradas%}
+                          {%for entrada in listado_entradas%}
+                            <li><a href="{% url 'page-details' entrada.id %}">
+                              <h5>{{entrada.titulo}}</h5>
+                              <span>{{entrada.fecha}}</span>
+                            </a></li>
+                          {%endfor%}
+                        {%else%}
+                          <p> No hay entradas disponibles en este momento.</p>
+                        {%endif%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item categories">
+                    <div class="sidebar-heading">
+                      <h2>Categorías</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {%if listado_entradas%}
+                          {%for cat in categorias%}
+                              <li><a href="{% url 'page-search-cat' cat %}">{{cat}}</a></li>
+                          {%endfor%}
+                        {%else%}
+                          <p> No hay entradas disponibles en este momento.</p>
+                        {%endif%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {% endblock %} 

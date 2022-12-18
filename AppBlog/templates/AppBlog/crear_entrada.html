@@ -1,0 +1,59 @@
+{% extends 'AppBlog/base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<title>BestReads - Crear entrada</title>
+
+{% endblock %}
+
+{% block contenidoQueCambia %}  
+
+      <div class="heading-page header-text">
+        <section class="page-heading">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-content">
+                  <h2>Crear entrada</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="contact-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="down-contact">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <div class="sidebar-item contact-form">
+                      <div class="sidebar-heading">
+                        <h2>Completa los datos</h2>
+                      </div>
+                      <div class="content">
+                        {% if errores %}
+                        <p>Errores encontrados:</p>
+                        <p style="color:red">{{errores}}</p>
+                        {% endif %}
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{formulario.as_p}}
+                            {{formulario.media}}
+                            <input style="width: none;height: none" type="submit" value="Crear entrada">
+                        </form>
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{% endblock %}

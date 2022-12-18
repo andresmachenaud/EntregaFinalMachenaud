@@ -1,0 +1,51 @@
+{% extends 'AppBlog/base.html' %}
+{% load static %}
+
+{% block head %}
+<title>BestReads - Sesión Cerrada</title>
+{% endblock %}
+
+{% block contenidoQueCambia %}  
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+        <section class="page-heading">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-content">
+                  <h4>Sesión cerrada</h4>
+                  <h2>Esperamos que vuelvas pronto!</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      
+      <!-- Banner Ends Here -->
+
+      <section class="call-to-action">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="main-content">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <span></span>
+                    <h4>Volver al Inicio</h4>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="main-button">
+                      <a rel="nofollow" href="{% url 'inicio' %}" target="_parent">Inicio</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+{% endblock %}

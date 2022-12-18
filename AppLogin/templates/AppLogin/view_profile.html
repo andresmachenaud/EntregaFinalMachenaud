@@ -1,0 +1,57 @@
+{% extends 'AppBlog/base.html' %}
+
+{% load static %}
+
+{% block head %}
+<title>BestReads - Ver Perfil</title>
+{% endblock %}
+
+{% block contenidoQueCambia %}  
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+        <section class="page-heading">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="text-content">
+                  <h4 style="text-transform:none">{{perfil.user.username}}</h4>
+                  <h2>{{perfil.user.first_name}} {{perfil.user.last_name}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="about-us">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              {% if avatar %}
+              <img src="{{avatar}}" style="max-width: 300px;" alt="">
+              {% else %}
+              <img src="{% static 'AppBlog\assets\images\sin-IMAGEN.jpg' %}" style="max-width: 300px;" alt="">
+              {% endif %}
+              <p hover="yellow"></p>
+              <h4>Nombre (usuario)</h4>
+              <p>{{perfil.user.first_name}} {{perfil.user.last_name}} ({{perfil.user.username}})</p>
+              <h4>Descripción</h4>
+              {% if perfil.descripcion %}
+                <p style="text-transform: none;">{{perfil.descripcion}}</p>
+              {% else %}
+                <p></p>
+              {% endif %}
+              <h4>Link</h4>
+              {% if perfil.link %}
+                <p>{{perfil.link}}</p>
+              {% else %}
+                <p></p>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+
+
+{% endblock %}

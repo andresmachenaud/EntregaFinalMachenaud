@@ -1,0 +1,170 @@
+{% extends 'AppBlog/base.html' %}
+
+{% load static %}
+
+{% block head %}  
+
+<title>BestReads - Posts</title>
+
+{% endblock %}
+
+{% block contenidoQueCambia %}  
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="heading-page header-text">
+      <section class="page-heading">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="text-content">
+                <h4>Entradas recientes</h4>
+                <h2>Descubre las últimas entradas a BESTREADS.</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    
+    <!-- Banner Ends Here -->
+
+    <section class="call-to-action">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="main-content">
+              <div class="row">
+                <div class="col-lg-8">
+                  <span>Comparte tus opiniones</span>
+                  <h4>Haz tu post para que la comunidad lo vea</h4>
+                </div>
+                <div class="col-lg-4">
+                  <div class="main-button">
+                    <a rel="nofollow" href="{% url 'pages-crear' %}" target="_parent">Crear post</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-posts grid-system">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="all-blog-posts">
+              <div class="row">
+                {% if listado_entradas %}
+                  {% for entrada in listado_entradas %}
+                    <div class="col-lg-6">
+                      <div class="blog-post">
+                        <div class="blog-thumb">
+                          {% if entrada.imagen %}
+                          <img src="{{entrada.imagen.url}}" alt="">
+                          {% else %}
+                          <img src="{% static 'AppBlog\assets\images\sin-IMAGEN.jpg' %}" alt="">
+                          {% endif %}
+                        </div>
+                        <div class="down-content">
+                          <span>{{entrada.libro.categoria}}</span>
+                          <a href="{% url 'page-details' entrada.id %}"><h4>{{entrada.titulo}}</h4></a> 
+                          <a href="{% url 'page-search-libro' entrada.libro.id %}"><h3>Libro: {{entrada.libro}}</h3></a> 
+                          {% if request.user == entrada.autor.user %}
+                          <a href="{% url 'page-edit' entrada.id %}"><h2>Editar</h2></a>
+                          {% endif %}
+                          <ul class="post-info">
+                            <li><a href="{% url 'view-profile' entrada.autor.id %}">{{entrada.autor.user.first_name}}</a></li>
+                            {% if entrada.editado %}
+                            <li><a>{{entrada.editado}}</a></li>
+                            {% else %}
+                            <li><a>{{entrada.fecha}}</a></li>
+                            {% endif %}
+                            <li><a>{{entrada.numcomentarios}} comentario(s)</a></li>
+                          </ul>
+                          <div class="first-par">
+                            <p></p>
+                          </div>
+                          <div class="cuerpo">
+                            {{entrada.cuerpo|safe}}
+                          </div>
+                          <div class="last-par">
+                            <p></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% else %} 
+                    <div class="col-lg-12">
+                      <div class="social-icons">
+                        <p>No hay entradas disponibles en este momento.</p>
+                        <p>&nbsp</p>
+                        <p>&nbsp</p>
+                        <p>&nbsp</p>
+                        <p>&nbsp</p>
+                      </div>
+                    </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="sidebar">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="sidebar-item search">
+                    <form id="search_form" method="GET" action="{% url 'page-search' %}">
+                      <input type="text" name="titulo_entrada" class="searchText" placeholder="Escribe para buscar una entrada..." autocomplete="on">
+                    </form>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item recent-posts">
+                    <div class="sidebar-heading">
+                      <h2>Posts recientes</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {%if listado_entradas_recientes%}
+                          {%for entrada in listado_entradas_recientes%}
+                            <li><a href="{% url 'page-details' entrada.id %}">
+                              <h5>{{entrada.titulo}}</h5>
+                              <span>{{entrada.fecha}}</span>
+                            </a></li>
+                          {%endfor%}
+                        {%else%}
+                          <p> No hay entradas disponibles en este momento.</p>
+                        {%endif%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="sidebar-item categories">
+                    <div class="sidebar-heading">
+                      <h2>Categorías</h2>
+                    </div>
+                    <div class="content">
+                      <ul>
+                        {%if listado_entradas%}
+                          {%for cat in categorias%}
+                              <li><a href="{% url 'page-search-cat' cat %}">{{cat}}</a></li>
+                          {%endfor%}
+                        {%else%}
+                          <p> No hay entradas disponibles en este momento.</p>
+                        {%endif%}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}
